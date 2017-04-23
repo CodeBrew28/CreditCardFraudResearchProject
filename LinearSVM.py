@@ -25,6 +25,7 @@ data = rdd.mapPartitions(lambda x: csv.reader(x))
 data = data.map( lambda x: clean(x) )
 data = data.filter(lambda x: x != None)
 normalizedData = data.map(normalize)
+normalizedData = sc.parallelize(normalizedData.take(1000))
 
 #split the training and test data
 (trainingData, testData) = normalizedData.randomSplit([0.7, 0.3])
